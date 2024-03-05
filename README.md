@@ -10,7 +10,8 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 3) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
 4) "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
-- Works only on Windows.
+- The executable works only on Windows, you could compile the main.py file to work on your operating system.
+- This program does not need to be installed, the executable works portably.
 - It may be that some antiviruses detect the executable of this program as Malware. This is a false positive, don't worry, you can review the code or compile it on your own if you don't trust it.
 - Files must be in WAV format.
 - In the file reorder box, it is important that the folders maintain the preset order.
@@ -32,7 +33,8 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 3) Puede reordenar los archivos enumerándolos según la posición que elijamos, y puede catalogarlos dentro de diferentes categorías:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
-- Funciona únicamente en Windows.
+- El ejecutable funciona únicamente en Windows, podrías compilar el archivo main.py para que te funcione en tu sistema operativo.
+- Este programa no necesita instalarse, el ejecutable funciona de forma portable.
 - Puede ser que algunos antivirus detecten el ejecutable de este programa como Malware. Ésto es un falso positivo, no te preocupes, puedes revisar el código o compilarlo por tu cuenta si no te fías.
 - Los archivos deben estar en formato WAV.
 - En el cuadro de reordenación de los archivos es importante que las carpetas mantengan el orden preestablecido.

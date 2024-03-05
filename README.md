@@ -8,7 +8,7 @@ It includes 3 main functions:
 2) Scans all files to see if they are mono or stereo and renames them to identify them as such.
 It also recognises when a stereo file is actually a fake stereo (same information on both channels) and classifies them as 'mono' and not 'stereo'.
 3) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
-4) "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
+"01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
 - The executable works only on Windows, you could compile the main.py file to work on your operating system.
 - This program does not need to be installed, the executable works portably.

@@ -78,12 +78,18 @@ def detect_audio_type(file):
         if data.shape[1] == 2:
             left_channel = data[:, 0]
             right_channel = data[:, 1]
-            correlation = np.corrcoef(left_channel, right_channel)[0, 1]
 
-            if correlation > 0.95:
+            # Calcular la diferencia absoluta entre los canales
+            absolute_difference = np.abs(left_channel - right_channel)
+
+            # Definir un umbral muy pequeño para la diferencia absoluta
+            tolerance = 1e-10  # Ajusta este valor según sea necesario
+
+            # Comprobar si la diferencia es menor que la tolerancia
+            if np.all(absolute_difference < tolerance):
                 return "False stereo"
-
-            return "True stereo"
+            else:
+                return "True stereo"
 
         return "Unknown"
     except Exception as e:

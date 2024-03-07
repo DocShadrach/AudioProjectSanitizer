@@ -13,6 +13,7 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 - The executable works only on Windows, you could compile the main.py file to work on your operating system.
 - This program does not need to be installed, the executable works portably.
 - It may be that some antiviruses detect the executable of this program as Malware. This is a false positive, don't worry, you can review the code or compile it on your own if you don't trust it.
+- IMPORTANT: you need to place the "ffmpeg" folder in the C:/ root directory of your computer so that the program can detect the mono and stereo files. If the program does not find this folder, this functionality will not work (the rest of the functions will continue to work).
 - Files must be in WAV format.
 - In the file reorder box, it is important that the folders maintain the preset order.
 - It is not necessary or mandatory to categorize the files, if they are above the categories they will be listed anyway but will not be moved to a folder.
@@ -36,6 +37,7 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 - El ejecutable funciona únicamente en Windows, podrías compilar el archivo main.py para que te funcione en tu sistema operativo.
 - Este programa no necesita instalarse, el ejecutable funciona de forma portable.
 - Puede ser que algunos antivirus detecten el ejecutable de este programa como Malware. Ésto es un falso positivo, no te preocupes, puedes revisar el código o compilarlo por tu cuenta si no te fías.
+- IMPORTANTE: necesitas colocar la carpeta "ffmpeg" en el directorio raiz C:/ de tu ordenador para que el programa pueda detectar los archivos mono y stereo. Si el programa no encuentra esta carpeta esta funcionalidad no funcionará (el resto de funcionalidades seguirán funcionando).
 - Los archivos deben estar en formato WAV.
 - En el cuadro de reordenación de los archivos es importante que las carpetas mantengan el orden preestablecido.
 - No es necesario u obligatorio categorizar los archivos, si quedan por encima de las categorías se enumerarán igualmente pero no se moverán a una carpeta.

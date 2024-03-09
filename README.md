@@ -1,8 +1,8 @@
-Audio Project Sanitizer (APS) v2.2
+Audio Project Sanitizer (APS) v2.21
 
-You can download version 2.2 from this link: // Puedes descargar la versión 2.2 desde este enlace:
+You can download version 2.21 from this link: // Puedes descargar la versión 2.21 desde este enlace:
 
-https://www.dropbox.com/scl/fi/dkc6mjv226gmom2ebkbjx/APS_2.2-ffmpeg.rar?rlkey=3q47sw2ncs2sg6v2wh7b3juox&dl=0
+https://www.dropbox.com/scl/fi/9grc23xcgtn0txz7y2b9y/APS_2.21.rar?rlkey=jemlev99lcfgsr8wlzltsky3v&dl=0
 
 
 ----------------------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 - The executable file works only on Windows. If you use another operating system, you could directly run the main.py file by installing Python on your computer or compile that file to make the program work on your operating system.
 - This program does not need to be installed, the executable file works portably, so you can place this file wherever you want.
 - It may be that some antiviruses detect the executable of this program as Malware. This is a false positive, don't worry, you can review the code or compile it on your own if you don't trust it.
-- IMPORTANT: you need to place the "ffmpeg" folder in the C:/ root directory of your computer so that the program can detect the mono and stereo files. If the program does not find this folder, this functionality will not work (the rest of the functions will continue to work). The ffprobe.exe file that can be downloaded with this program was downloaded from the official FFmpeg site (https://ffmpeg.org/download.html) and it is only for Windows, if you need this file for another operating system you can download it from that page.
+- IMPORTANT: you need to keep the ffprobe.exe file in the same folder as the executable file so that the program can detect the mono and stereo files. If the program does not find this file, this functionality will not work (the rest of the functionalities will continue to work). The ffprobe.exe file that I provide with the download of this program was downloaded from the official site of FFmpeg (https://ffmpeg.org/download.html) and is only for Windows, if you need this file for another operating system you can download it from that page.
 - Files must be in WAV format.
 - In the file reorder box, it is important that the folders maintain the preset order.
 - It is not necessary or mandatory to categorize the files, if they are above the categories they will be listed anyway but will not be moved to a folder.
@@ -50,7 +50,7 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 - El ejecutable funciona únicamente en Windows. Si utilizas otro sistema operativo podrías ejecutar directamente el archivo main.py instalando Python en tu ordenador o compilar ese archivo para hacer que el programa funcione en tu sistema operativo.
 - Este programa no necesita instalarse, el ejecutable funciona de forma portable, así que puedes colocar este archivo donde quieras.
 - Puede ser que algunos antivirus detecten el ejecutable de este programa como Malware. Ésto es un falso positivo, no te preocupes, puedes revisar el código o compilarlo por tu cuenta si no te fías.
-- IMPORTANTE: necesitas colocar la carpeta "ffmpeg" en el directorio raiz C:/ de tu ordenador para que el programa pueda detectar los archivos mono y stereo. Si el programa no encuentra esta carpeta esta funcionalidad no funcionará (el resto de funcionalidades seguirán funcionando). El archivo ffprobe.exe que se puede descargar con este programa fue descargado desde el sitio oficial de FFmpeg (https://ffmpeg.org/download.html) y sirve solo para Windows, si necesitas este archivo para otro sistema operativo lo puedes descargar desde esa página.
+- IMPORTANTE: necesitas mantener el archivo ffprobe.exe en la misma carpeta que el ejecutable para que el programa pueda detectar los archivos mono y stereo. Si el programa no encuentra este archivo esta funcionalidad no funcionará (el resto de funcionalidades seguirán funcionando). El archivo ffprobe.exe que proveo con la descarga de este programa fue descargado desde el sitio oficial de FFmpeg (https://ffmpeg.org/download.html) y sirve solo para Windows, si necesitas este archivo para otro sistema operativo lo puedes descargar desde esa página.
 - Los archivos deben estar en formato WAV.
 - En el cuadro de reordenación de los archivos es importante que las carpetas mantengan el orden preestablecido.
 - No es necesario u obligatorio categorizar los archivos, si quedan por encima de las categorías se enumerarán igualmente pero no se moverán a una carpeta.

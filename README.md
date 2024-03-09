@@ -1,6 +1,6 @@
 Audio Project Sanitizer (APS) v2.2
 
-DOWNLOAD/DESCARGA:
+You can download version 2.2 from this link: // Puedes descargar la versión 2.2 desde este enlace:
 
 https://www.dropbox.com/scl/fi/dkc6mjv226gmom2ebkbjx/APS_2.2-ffmpeg.rar?rlkey=3q47sw2ncs2sg6v2wh7b3juox&dl=0
 

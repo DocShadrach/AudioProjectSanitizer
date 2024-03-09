@@ -25,7 +25,7 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 - Files must be in WAV format.
 - In the file reorder box, it is important that the folders maintain the preset order.
 - It is not necessary or mandatory to categorize the files, if they are above the categories they will be listed anyway but will not be moved to a folder.
-- If the project doesn't have temporary files (the kind that start with a period), the option to delete them doesn't appear.
+- If the project doesn't have temporary files (the kind that start with a dot), the option to delete them doesn't appear.
 - If the files are already identified as (mono) or (stereo), the option to scan the files does not appear.
 - If the selected folder does not have WAV files (only folders appear), the option to reorder the files does not appear.
 - If you have a project that is already categorized, you can indicate that the program enters a category (its folder) and reorder the files as well (without having to categorize them).

@@ -3,111 +3,9 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 import ffmpeg
 from tqdm import tqdm
-
-def confirm_delete_hidden_files(folder):
-    delete = messagebox.askyesno("Confirm", "Do you want to delete files starting with a dot?")
-    if delete:
-        delete_hidden_files(folder)
-
-def delete_hidden_files(folder):
-    for root_dir, dirs, files in os.walk(folder):
-        for file in files:
-            if file.startswith("."):
-                file_path = os.path.join(root_dir, file)
-                os.remove(file_path)
-                print(f"File deleted: {file_path}")
-
-def confirm_identify_audio_type(folder):
-    if not contains_labeled_files(folder):
-        identify = messagebox.askyesno("Confirm", "Do you want to identify the audio type (mono/stereo) of the files?")
-        if identify:
-            identify_audio_type(folder)
-
-def contains_labeled_files(folder):
-    for root_dir, _, files in os.walk(folder):
-        for file in files:
-            if "(mono)" in file or "(stereo)" in file:
-                return True
-    return False
-
-def identify_audio_type(folder):
-    for root_dir, _, files in os.walk(folder):
-        wav_files = [file for file in files if file.endswith(".wav")]
-        with tqdm(total=len(wav_files), desc=f"Processing files in {root_dir}") as pbar:
-            for file in wav_files:
-                if "(mono)" in file or "(stereo)" in file:
-                    continue  # Skip files already labeled
-                original_path = os.path.join(root_dir, file)
-                audio_type = get_audio_type(original_path)
-                if audio_type:
-                    new_name = f"{os.path.splitext(file)[0]} ({audio_type}).wav"
-                    try:
-                        os.rename(original_path, os.path.join(root_dir, new_name))
-                    except Exception as e:
-                        print("Error renaming file:", e)
-                pbar.update(1)
-
-def get_audio_type(file):
-    try:
-        info = ffmpeg.probe(file, cmd='C:/ffmpeg/bin/ffprobe.exe')
-        num_channels = info['streams'][0]['channels']
-        if num_channels == 1:
-            return "mono"
-        elif num_channels == 2:
-            channel_type = detect_audio_type(file)
-            if channel_type == "False stereo":
-                return "mono"
-            else:
-                return "stereo"
-        else:
-            return "unknown"
-    except Exception as e:
-        print("Error obtaining file information:", e)
-        return None
-
-def detect_audio_type(file):
-    try:
-        import soundfile as sf
-        import numpy as np
-
-        data, _ = sf.read(file)
-
-        if len(data.shape) == 1 or data.shape[1] == 1:
-            return "Mono"
-
-        if data.shape[1] == 2:
-            left_channel = data[:, 0]
-            right_channel = data[:, 1]
-
-            # Calcular la diferencia absoluta entre los canales
-            absolute_difference = np.abs(left_channel - right_channel)
-
-            # Definir un umbral muy pequeño para la diferencia absoluta
-            tolerance = 1e-10  # Ajusta este valor según sea necesario
-
-            # Comprobar si la diferencia es menor que la tolerancia
-            if np.all(absolute_difference < tolerance):
-                return "False stereo"
-            else:
-                return "True stereo"
-
-        return "Unknown"
-    except Exception as e:
-        print("Error detecting audio type:", e)
-        return "Unknown"
-
-def confirm_reorder_files(folder):
-    wav_files = [file for file in os.listdir(folder) if file.endswith(".wav")]
-    if wav_files:
-        reorder = messagebox.askyesno("Confirm", "Do you want to reorder the files into folders?")
-        if reorder:
-            reorder_files(folder)
-    else:
-        print("No .wav files found in the folder. Exiting the program.")
-
-def reorder_files(folder):
-    app = FileOrdererApp(folder)
-    app.run()
+from scipy.io import wavfile
+import soundfile as sf
+import numpy as np
 
 class FileOrdererApp:
     def __init__(self, folder):
@@ -188,17 +86,12 @@ class FileOrdererApp:
 
     def run(self):
         self.root.title("Reorder Your Tracks. IMPORTANT: DON'T CHANGE THE ORDER OF THE CATEGORIES")
-        # Obtener las dimensiones de la pantalla
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-
-        # Definir el tamaño y la posición de la ventana
-        window_width = int(screen_width * 0.4)  # Ancho de la ventana
-        window_height = int(screen_height * 0.4)  # Alto de la ventana
-        x = (screen_width - window_width) // 2  # Posición x de la ventana
-        y = (screen_height - window_height) // 2  # Posición y de la ventana
-
-        # Configurar la geometría de la ventana
+        window_width = int(screen_width * 0.4)
+        window_height = int(screen_height * 0.4)
+        x = (screen_width - window_width) // 2
+        y = (screen_height - window_height) // 2
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
         self.root.mainloop()
 
@@ -218,6 +111,141 @@ def main():
         print("Process completed.")
     else:
         print("No folder selected.")
+
+def show_dualmono_files(dualmono_files):
+    filenames = [os.path.basename(file_path).replace('(dualmono).wav', '') for file_path in dualmono_files]
+    messagebox.showinfo("Dualmono Files", "\n".join(filenames))
+
+def convert_dualmono_to_mono(dualmono_files):
+    show_dualmono_files(dualmono_files)  # Mostrar los nombres de los archivos dualmono
+    convert = messagebox.askyesno("Confirm", "Do you want to convert dualmono files to mono?")
+    if convert:
+        for file_path in dualmono_files:
+            try:
+                # Leer el archivo de audio
+                original_data, original_sample_rate = sf.read(file_path)
+
+                # Tomar solo el canal izquierdo
+                if original_data.shape[1] == 2:  # Verificar si el archivo es estéreo
+                    mono_data = original_data[:, 0]  # Tomar solo el primer canal (izquierdo)
+                else:
+                    mono_data = original_data  # Si es mono, no hay necesidad de cambiar nada
+
+                # Guardar el archivo mono
+                output_file_path = file_path.replace('(dualmono).wav', '(mono).wav')
+                sf.write(output_file_path, mono_data, original_sample_rate)
+
+                print(f"Archivo mono generado: {output_file_path}")
+
+                # Eliminar el archivo original (dualmono)
+                os.remove(file_path)
+                print(f"Archivo dualmono eliminado: {file_path}")
+
+            except Exception as e:
+                print("Error converting file:", e)
+
+def confirm_delete_hidden_files(folder):
+    delete = messagebox.askyesno("Confirm", "Do you want to delete files starting with a dot?")
+    if delete:
+        delete_hidden_files(folder)
+
+def delete_hidden_files(folder):
+    for root_dir, dirs, files in os.walk(folder):
+        for file in files:
+            if file.startswith("."):
+                file_path = os.path.join(root_dir, file)
+                os.remove(file_path)
+                print(f"File deleted: {file_path}")
+
+def confirm_identify_audio_type(folder):
+    if not contains_labeled_files(folder):
+        identify = messagebox.askyesno("Confirm", "Do you want to identify the audio type (mono/stereo) of the files?")
+        if identify:
+            identify_audio_type(folder)
+
+def contains_labeled_files(folder):
+    for root_dir, _, files in os.walk(folder):
+        for file in files:
+            if "(mono)" in file or "(stereo)" in file:
+                return True
+    return False
+
+def identify_audio_type(folder):
+    dualmono_files = []
+    for root_dir, _, files in os.walk(folder):
+        wav_files = [file for file in files if file.endswith(".wav")]
+        with tqdm(total=len(wav_files), desc=f"Processing files in {root_dir}") as pbar:
+            for file in wav_files:
+                if "(mono)" in file or "(stereo)" in file:
+                    continue  # Skip files already labeled
+                original_path = os.path.join(root_dir, file)
+                audio_type = get_audio_type(original_path)
+                if audio_type:
+                    new_name = f"{os.path.splitext(file)[0]} ({audio_type}).wav"
+                    try:
+                        os.rename(original_path, os.path.join(root_dir, new_name))
+                    except Exception as e:
+                        print("Error renaming file:", e)
+                pbar.update(1)
+                if audio_type == "dualmono":
+                    dualmono_files.append(os.path.join(root_dir, new_name))  # Usar el nombre modificado
+    if dualmono_files:
+        convert_dualmono_to_mono(dualmono_files)
+
+def get_audio_type(file):
+    try:
+        info = ffmpeg.probe(file, cmd='C:/ffmpeg/bin/ffprobe.exe')
+        num_channels = info['streams'][0]['channels']
+        if num_channels == 1:
+            return "mono"
+        elif num_channels == 2:
+            channel_type = detect_audio_type(file)
+            if channel_type == "False stereo":
+                return "dualmono"
+            else:
+                return "stereo"
+        else:
+            return "unknown"
+    except Exception as e:
+        print("Error obtaining file information:", e)
+        return None
+
+def detect_audio_type(file):
+    try:
+        data, _ = sf.read(file)
+
+        if len(data.shape) == 1 or data.shape[1] == 1:
+            return "Mono"
+
+        if data.shape[1] == 2:
+            left_channel = data[:, 0]
+            right_channel = data[:, 1]
+
+            absolute_difference = np.abs(left_channel - right_channel)
+            tolerance = 1e-10
+
+            if np.all(absolute_difference < tolerance):
+                return "False stereo"
+            else:
+                return "True stereo"
+
+        return "Unknown"
+    except Exception as e:
+        print("Error detecting audio type:", e)
+        return "Unknown"
+
+def confirm_reorder_files(folder):
+    wav_files = [file for file in os.listdir(folder) if file.endswith(".wav")]
+    if wav_files:
+        reorder = messagebox.askyesno("Confirm", "Do you want to reorder the files into folders?")
+        if reorder:
+            reorder_files(folder)
+    else:
+        print("No .wav files found in the folder. Exiting the program.")
+
+def reorder_files(folder):
+    app = FileOrdererApp(folder)
+    app.run()
 
 if __name__ == "__main__":
     main()

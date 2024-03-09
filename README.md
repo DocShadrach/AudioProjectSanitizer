@@ -18,7 +18,7 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 4) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
-- The executable file works only on Windows. If you use another operating system, you could directly run the main.py file by installing Python on your computer or compile that file to make the program work on your operating system..
+- The executable file works only on Windows. If you use another operating system, you could directly run the main.py file by installing Python on your computer or compile that file to make the program work on your operating system.
 - This program does not need to be installed, the executable file works portably, so you can place this file wherever you want.
 - It may be that some antiviruses detect the executable of this program as Malware. This is a false positive, don't worry, you can review the code or compile it on your own if you don't trust it.
 - IMPORTANT: you need to place the "ffmpeg" folder in the C:/ root directory of your computer so that the program can detect the mono and stereo files. If the program does not find this folder, this functionality will not work (the rest of the functions will continue to work). The ffprobe.exe file that can be downloaded with this program was downloaded from the official FFmpeg site (https://ffmpeg.org/download.html) and it is only for Windows, if you need this file for another operating system you can download it from that page.

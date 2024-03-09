@@ -102,11 +102,13 @@ def select_folder():
     return folder
 
 def main():
+    current_directory = os.getcwd().replace("\\", "/") + "/ffprobe.exe"  # Convertir \ a / y agregar /ffprobe.exe al final
+    print("Current directory:", current_directory)
     folder = select_folder()
     if folder:
         if any(file.startswith(".") for file in os.listdir(folder)):
             confirm_delete_hidden_files(folder)
-        confirm_identify_audio_type(folder)
+        confirm_identify_audio_type(folder, current_directory)  # Pasar la ubicación del ffprobe como parámetro
         confirm_reorder_files(folder)
         print("Process completed.")
     else:
@@ -157,11 +159,11 @@ def delete_hidden_files(folder):
                 os.remove(file_path)
                 print(f"File deleted: {file_path}")
 
-def confirm_identify_audio_type(folder):
+def confirm_identify_audio_type(folder, ffprobe_path):
     if not contains_labeled_files(folder):
         identify = messagebox.askyesno("Confirm", "Do you want to identify the audio type (mono/stereo) of the files?")
         if identify:
-            identify_audio_type(folder)
+            identify_audio_type(folder, ffprobe_path)  # Pasar la ubicación del ffprobe como parámetro
 
 def contains_labeled_files(folder):
     for root_dir, _, files in os.walk(folder):
@@ -170,7 +172,7 @@ def contains_labeled_files(folder):
                 return True
     return False
 
-def identify_audio_type(folder):
+def identify_audio_type(folder, ffprobe_path):
     dualmono_files = []
     for root_dir, _, files in os.walk(folder):
         wav_files = [file for file in files if file.endswith(".wav")]
@@ -179,7 +181,7 @@ def identify_audio_type(folder):
                 if "(mono)" in file or "(stereo)" in file:
                     continue  # Skip files already labeled
                 original_path = os.path.join(root_dir, file)
-                audio_type = get_audio_type(original_path)
+                audio_type = get_audio_type(original_path, ffprobe_path)  # Pasar la ubicación del ffprobe como parámetro
                 if audio_type:
                     new_name = f"{os.path.splitext(file)[0]} ({audio_type}).wav"
                     try:
@@ -192,9 +194,9 @@ def identify_audio_type(folder):
     if dualmono_files:
         convert_dualmono_to_mono(dualmono_files)
 
-def get_audio_type(file):
+def get_audio_type(file, ffprobe_path):
     try:
-        info = ffmpeg.probe(file, cmd='C:/ffmpeg/bin/ffprobe.exe')
+        info = ffmpeg.probe(file, cmd=ffprobe_path)
         num_channels = info['streams'][0]['channels']
         if num_channels == 1:
             return "mono"

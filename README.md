@@ -30,7 +30,9 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 - If the selected folder does not have WAV files (only folders appear), the option to reorder the files does not appear.
 - If you have a project that is already categorized, you can indicate that the program enters a category (its folder) and reorder the files as well (without having to categorize them).
 
-This program is completely free but if this program is useful to you, you could help me with a donation at: https://ko-fi.com/elpandelpunk.
+This program is completely free but if this program is useful to you, you could help me with a donation at:
+
+https://ko-fi.com/elpandelpunk
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -57,5 +59,7 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 - Si la carpeta seleccionada no tiene archivos WAV (solo aparecen carpetas) la opción de reordenar los archivos no aparece.
 - Si tienes un proyecto que ya está categorizado, puedes indicar para que el programa entre en alguna categoría (a su carpeta) y reordenar igualmente los archivos (sin necesidad de categorizarlos).
 
-Este programa es totalmente gratuito pero si este programa te resulta de utilidad podrías ayudarme con una donación en: https://ko-fi.com/elpandelpunk.
+Este programa es totalmente gratuito pero si este programa te resulta de utilidad podrías ayudarme con una donación en:
+
+https://ko-fi.com/elpandelpunk
 

@@ -32,7 +32,7 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 
 This program is completely free but if this program is useful to you, you could help me with a donation at:
 
-https://ko-fi.com/elpandelpunk
+https://ko-fi.com/docshadrach
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -61,5 +61,5 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 
 Este programa es totalmente gratuito pero si este programa te resulta de utilidad podrías ayudarme con una donación en:
 
-https://ko-fi.com/elpandelpunk
+https://ko-fi.com/docshadrach
 

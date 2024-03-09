@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 import ffmpeg
 from tqdm import tqdm
-from scipy.io import wavfile
+import scipy.io.wavfile as wav
 import soundfile as sf
 import numpy as np
 
@@ -125,17 +125,17 @@ def convert_dualmono_to_mono(dualmono_files):
         for file_path in dualmono_files:
             try:
                 # Leer el archivo de audio
-                original_data, original_sample_rate = sf.read(file_path)
+                original_sample_rate, original_data = wav.read(file_path)
 
                 # Tomar solo el canal izquierdo
-                if original_data.shape[1] == 2:  # Verificar si el archivo es estéreo
+                if original_data.ndim == 2:  # Verificar si el archivo es estéreo
                     mono_data = original_data[:, 0]  # Tomar solo el primer canal (izquierdo)
                 else:
                     mono_data = original_data  # Si es mono, no hay necesidad de cambiar nada
 
                 # Guardar el archivo mono
                 output_file_path = file_path.replace('(dualmono).wav', '(mono).wav')
-                sf.write(output_file_path, mono_data, original_sample_rate)
+                wav.write(output_file_path, original_sample_rate, mono_data)
 
                 print(f"Archivo mono generado: {output_file_path}")
 

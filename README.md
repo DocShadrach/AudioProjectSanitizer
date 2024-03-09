@@ -1,13 +1,15 @@
-Audio Project Sanitizer (APS) v2.21
+Audio Project Sanitizer (APS) v2.3
 
-You can download version 2.21 from this link: // Puedes descargar la versión 2.21 desde este enlace:
+You can download version 2.3 from this link: // Puedes descargar la versión 2.3 desde este enlace:
 
-https://www.dropbox.com/scl/fi/9grc23xcgtn0txz7y2b9y/APS_2.21.rar?rlkey=jemlev99lcfgsr8wlzltsky3v&dl=0
+https://www.dropbox.com/scl/fi/tn4i15tjxa9bayarqkmvp/APS_2.3.rar?rlkey=x0vzd9hm3oe1e3aedz6gg5rqc&dl=0
 
 
 ----------------------------------------------------------------------------------------------------------
 
 English:
+
+WARNING: Always keep a copy of your original files, in case you later regret any changes that this program may make.
 
 This program is used to sort the audio files in a mixing project before importing the files into the DAW.
 It includes 4 main functions:
@@ -37,6 +39,8 @@ https://ko-fi.com/docshadrach
 ----------------------------------------------------------------------------------------------------------
 
 Español:
+
+ADVERTENCIA: siempre guarda una copia de tus archivos originales, por si luego te arrepientes de algún cambio que puediera llegar a hacer este programa.
 
 Este programa sirve para ordenar los archivos de audio de un proyecto de mezcla antes de importar los archivos al DAW.
 Incluye 4 funciones principales:

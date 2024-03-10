@@ -1,8 +1,8 @@
-Audio Project Sanitizer (APS) v2.3
+Audio Project Sanitizer (APS) v2.4
 
-You can download version 2.3 from this link: // Puedes descargar la versión 2.3 desde este enlace:
+You can download version 2.4 from this link: // Puedes descargar la versión 2.4 desde este enlace:
 
-https://www.dropbox.com/scl/fi/tn4i15tjxa9bayarqkmvp/APS_2.3.rar?rlkey=x0vzd9hm3oe1e3aedz6gg5rqc&dl=0
+https://www.dropbox.com/scl/fi/pefigoqn3uqinqhs6v03w/APS_2.4.rar?rlkey=lquvi0hv01giyj1hgcre7ecrr&dl=0
 
 
 ----------------------------------------------------------------------------------------------------------
@@ -12,12 +12,13 @@ English:
 WARNING: Always keep a copy of your original files, in case you later regret any changes that this program may make.
 
 This program is used to sort the audio files in a mixing project before importing the files into the DAW.
-It includes 4 main functions:
+It includes 5 main functions:
 1) If your project files contain temporary Pro Tools files (those that start with a dot), it can delete them.
 2) Scans all files to see if they are mono or stereo and renames them to identify them as such.
 It also recognises when a stereo file is actually a fake stereo (same information on both channels) and classifies them as 'dualmono' and not 'stereo'.
 3) It gives the possibility of converting "dualmono" files into mono without any quality loss. This allows you to work with smaller files.
-4) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
+4) Search for files that could be L and R, show in a window what it have found and ask if you want to put them together in a single stereo file.
+5) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
 - The executable file works only on Windows. If you use another operating system, you could directly run the main.py file by installing Python on your computer or compile that file to make the program work on your operating system.
@@ -43,12 +44,13 @@ Español:
 ADVERTENCIA: siempre guarda una copia de tus archivos originales, por si luego te arrepientes de algún cambio que puediera llegar a hacer este programa.
 
 Este programa sirve para ordenar los archivos de audio de un proyecto de mezcla antes de importar los archivos al DAW.
-Incluye 4 funciones principales:
+Incluye 5 funciones principales:
 1) Si los archivos del proyecto contienen archivos temporales de Pro Tools (los que empiezan con un punto) los puede borrar.
 2) Analiza todos los archivos para ver si son mono o si son estéreo y los renombra para identificarlos como tal.
 Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (misma información en ambos canales) y los cataloga como 'dualmono' y no como 'stereo'.
 3) Da la posibilidad de convertir los archivos "dualmono" en mono sin ningún tipo de pérdida de calidad. Ésto permite trabajar con archivos más pequeños.
-4) Puede reordenar los archivos enumerándolos según la posición que elijamos, y puede catalogarlos dentro de diferentes categorías:
+4) Busca archivos que puedan ser L y R, muestra en una ventana lo que ha encontrado y pregunta si se quieren juntar en un solo archivo estéreo.
+5) Puede reordenar los archivos enumerándolos según la posición que elijamos, y puede catalogarlos dentro de diferentes categorías:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
 - El ejecutable funciona únicamente en Windows. Si utilizas otro sistema operativo podrías ejecutar directamente el archivo main.py instalando Python en tu ordenador o compilar ese archivo para hacer que el programa funcione en tu sistema operativo.

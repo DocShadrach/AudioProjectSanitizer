@@ -6,6 +6,8 @@ from tqdm import tqdm
 import scipy.io.wavfile as wav
 import soundfile as sf
 import numpy as np
+import re
+import webbrowser
 
 class FileOrdererApp:
     def __init__(self, folder):
@@ -101,6 +103,15 @@ def select_folder():
     folder = filedialog.askdirectory(title="Select Folder")
     return folder
 
+def show_donation_dialog():
+    root = tk.Tk()
+    root.withdraw()
+    donation_message = "Created by Doc Shadrach.\n\nThis is free, but if this program is helpful to you, saves your time (and money), and you appreciate all my work, you might consider making a donation."
+    response = messagebox.askyesno("Donate to Support", donation_message, detail="Do you want to make a donation?", icon="info")
+    if response:
+        webbrowser.open("https://ko-fi.com/docshadrach")
+    root.destroy()
+
 def main():
     current_directory = os.getcwd().replace("\\", "/") + "/ffprobe.exe"  # Convertir \ a / y agregar /ffprobe.exe al final
     print("Current directory:", current_directory)
@@ -109,14 +120,32 @@ def main():
         if any(file.startswith(".") for file in os.listdir(folder)):
             confirm_delete_hidden_files(folder)
         confirm_identify_audio_type(folder, current_directory)  # Pasar la ubicación del ffprobe como parámetro
-        confirm_reorder_files(folder)
+        confirm_convert_dualmono_to_mono(folder)
+        confirm_convert_LR_to_stereo(folder)
+        confirm_reorder_files(folder)  # Confirmar la reordenación después de todas las conversiones
         print("Process completed.")
+        show_donation_dialog()
     else:
         print("No folder selected.")
 
 def show_dualmono_files(dualmono_files):
     filenames = [os.path.basename(file_path).replace('(dualmono).wav', '') for file_path in dualmono_files]
-    messagebox.showinfo("Dualmono Files", "\n".join(filenames))
+    messagebox.showinfo("Dualmono Files Found", "\n".join(filenames))
+
+def show_LR_files(matching_files):
+    lr_pairs = []
+    for base_name_lower, files in matching_files.items():
+        left_files = [file for file in files if re.search(r'\bL\b|\bleft\b', file, re.IGNORECASE)]
+        right_files = [file for file in files if re.search(r'\bR\b|\bright\b', file, re.IGNORECASE)]
+        if len(left_files) == 1 and len(right_files) == 1:
+            lr_pairs.append((left_files[0], right_files[0]))
+
+    if lr_pairs:
+        messagebox.showinfo("LR Files Found", "\n".join([f"Left: {os.path.basename(left)} - Right: {os.path.basename(right)}" for left, right in lr_pairs]))
+        return True
+    else:
+        print("No matching L/R pairs found.")
+        return False
 
 def convert_dualmono_to_mono(dualmono_files):
     show_dualmono_files(dualmono_files)  # Mostrar los nombres de los archivos dualmono
@@ -236,6 +265,30 @@ def detect_audio_type(file):
         print("Error detecting audio type:", e)
         return "Unknown"
 
+def confirm_convert_dualmono_to_mono(folder):
+    dualmono_files = [file for file in os.listdir(folder) if file.lower().endswith("(dualmono).wav")]
+    if dualmono_files:
+        convert = messagebox.askyesno("Confirm", "Do you want to convert dualmono files to mono?")
+        if convert:
+            dualmono_paths = [os.path.join(folder, file) for file in dualmono_files]
+            convert_dualmono_to_mono(dualmono_paths)
+
+def confirm_convert_LR_to_stereo(folder):
+    matching_files = find_matching_files(folder)
+    if matching_files:
+        lr_files_found = show_LR_files(matching_files)  # Mostrar los archivos L y R encontrados
+        if lr_files_found:
+            convert = messagebox.askyesno("Confirm", "Do you want to convert L/R files to stereo?")
+            if convert:
+                for base_name_lower, files in matching_files.items():
+                    if len(files) > 1:
+                        left_files = [file for file in files if re.search(r'\bL\b|\bleft\b', file, re.IGNORECASE)]
+                        right_files = [file for file in files if re.search(r'\bR\b|\bright\b', file, re.IGNORECASE)]
+                        if len(left_files) == 1 and len(right_files) == 1:
+                            convert_to_stereo(left_files[0], right_files[0])
+    else:
+        print("No matching L/R pairs found in the folder.")
+
 def confirm_reorder_files(folder):
     wav_files = [file for file in os.listdir(folder) if file.endswith(".wav")]
     if wav_files:
@@ -248,6 +301,80 @@ def confirm_reorder_files(folder):
 def reorder_files(folder):
     app = FileOrdererApp(folder)
     app.run()
+
+def find_matching_files(folder_path):
+    matching_files = {}
+    for root_folder, _, files in os.walk(folder_path):
+        for file in files:
+            if file.startswith('.'):
+                continue
+            
+            match = re.match(r'(.+?)\s*(?:left|right|l|r)?(?:\s*\(.*?\))?\.(.+)', file, re.IGNORECASE)
+            if match:
+                base_name = match.group(1)
+                base_name_lower = base_name.lower()
+                if base_name_lower in matching_files:
+                    matching_files[base_name_lower].append(os.path.join(root_folder, file))
+                else:
+                    matching_files[base_name_lower] = [os.path.join(root_folder, file)]
+    return matching_files
+
+def convert_to_mono(file_path):
+    sample_rate, data = wav.read(file_path)
+    
+    # Si el archivo ya tiene la marca "(mono)", no es necesario convertirlo
+    if "(mono)" not in file_path.lower():
+        # Si el archivo tiene la marca "(dualmono)", convertirlo a mono
+        if "(dualmono)" in file_path.lower():
+            data = np.mean(data, axis=1, dtype=np.int16)  # Promediar los dos canales para convertir a mono
+        
+        # Actualizar el nombre del archivo agregando "(mono)"
+        file_name, file_ext = os.path.splitext(file_path)
+        new_file_path = f"{file_name} (mono){file_ext}"
+        
+        # Guardar el archivo convertido a mono
+        wav.write(new_file_path, sample_rate, data)
+        print(f"Archivo convertido a mono: {file_path} -> {new_file_path}")
+        
+        return new_file_path
+    else:
+        return file_path
+
+def convert_to_stereo(left_file_path, right_file_path):
+    left_sample_rate, left_data = wav.read(left_file_path)
+    right_sample_rate, right_data = wav.read(right_file_path)
+    
+    # Ajustar la longitud de los datos al mínimo de ambos canales
+    min_len = min(len(left_data), len(right_data))
+    left_data = left_data[:min_len]
+    right_data = right_data[:min_len]
+    
+    # Combinar los canales izquierdo y derecho para formar el estéreo
+    stereo_data = np.column_stack((left_data, right_data))
+    
+    # Obtener el nombre base del archivo estéreo
+    base_name_left = os.path.splitext(os.path.basename(left_file_path))[0]
+    base_name_right = os.path.splitext(os.path.basename(right_file_path))[0] if right_file_path else None
+    
+    if base_name_right:
+        base_name_stereo = ''
+        for c1, c2 in zip(base_name_left, base_name_right):
+            if c1.lower() == c2.lower():
+                base_name_stereo += c1
+            else:
+                break
+    else:
+        base_name_stereo = base_name_left
+            
+    # Guardar el archivo estéreo
+    output_file = os.path.join(os.path.dirname(left_file_path), f"{base_name_stereo}(stereo).wav")
+    wav.write(output_file, left_sample_rate, stereo_data)
+    print(f"Archivos mono convertidos a estéreo: {left_file_path} y {right_file_path} -> {output_file}")
+    
+    # Eliminar los archivos originales
+    os.remove(left_file_path)
+    if right_file_path:
+        os.remove(right_file_path)
 
 if __name__ == "__main__":
     main()

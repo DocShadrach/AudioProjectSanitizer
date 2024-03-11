@@ -4,6 +4,7 @@ You can download version 2.5 from this link: // Puedes descargar la versión 2.5
 
 https://www.dropbox.com/scl/fi/8ylph8n9wm6koz1wel1za/APS_2.5.rar?rlkey=clbosgc7lyq5wd4htsfj78ieo&dl=0
 
+(For now, only for Windows.) // (Por ahora, solo para Windows.)
 
 ----------------------------------------------------------------------------------------------------------
 
@@ -13,7 +14,7 @@ WARNING: although this program works non-destructively (saving a copy of the fil
 
 This program is used to sort the audio files in a mixing project before importing the files into the DAW.
 It includes 5 main functions:
-1) If your project files contain temporary Pro Tools files (those that start with a dot), it can delete them.
+1) If your project files contain temporary MacOS files (those that start with a dot), it can delete them.
 2) Scans all files to see if they are mono or stereo and renames them to identify them as such.
 It also recognises when a stereo file is actually a fake stereo (same information on both channels) and classifies them as 'dualmono' and not 'stereo'.
 3) It gives the possibility of converting "dualmono" files into mono without any quality loss. This allows you to work with smaller files.
@@ -45,7 +46,7 @@ ADVERTENCIA: aunque este programa trabaja de forma no destructiva (guardando en 
 
 Este programa sirve para ordenar los archivos de audio de un proyecto de mezcla antes de importar los archivos al DAW.
 Incluye 5 funciones principales:
-1) Si los archivos del proyecto contienen archivos temporales de Pro Tools (los que empiezan con un punto) los puede borrar.
+1) Si los archivos del proyecto contienen archivos temporales de MacOS (los que empiezan con un punto) los puede borrar.
 2) Analiza todos los archivos para ver si son mono o si son estéreo y los renombra para identificarlos como tal.
 Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (misma información en ambos canales) y los cataloga como 'dualmono' y no como 'stereo'.
 3) Da la posibilidad de convertir los archivos "dualmono" en mono sin ningún tipo de pérdida de calidad. Ésto permite trabajar con archivos más pequeños.

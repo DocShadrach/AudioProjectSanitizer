@@ -8,6 +8,7 @@ import soundfile as sf
 import numpy as np
 import re
 import webbrowser
+import shutil  # Importar el módulo shutil para la operación de mover archivos
 
 class FileOrdererApp:
     def __init__(self, folder):
@@ -113,13 +114,14 @@ def show_donation_dialog():
     root.destroy()
 
 def main():
-    current_directory = os.getcwd().replace("\\", "/") + "/ffprobe.exe"  # Convertir \ a / y agregar /ffprobe.exe al final
-    print("Current directory:", current_directory)
+    current_directory = os.getcwd()
+    ffprobe_path = os.path.join(current_directory,'ffprobe')
+    #print(ffprobe_path)
     folder = select_folder()
     if folder:
         if any(file.startswith(".") for file in os.listdir(folder)):
             confirm_delete_hidden_files(folder)
-        confirm_identify_audio_type(folder, current_directory)  # Pasar la ubicación del ffprobe como parámetro
+        confirm_identify_audio_type(folder, ffprobe_path)  # Pasar la ubicación del ffprobe como parámetro
         confirm_convert_dualmono_to_mono(folder)
         confirm_convert_LR_to_stereo(folder)
         confirm_reorder_files(folder)  # Confirmar la reordenación después de todas las conversiones
@@ -168,15 +170,17 @@ def convert_dualmono_to_mono(dualmono_files):
 
                 print(f"Archivo mono generado: {output_file_path}")
 
-                # Eliminar el archivo original (dualmono)
-                os.remove(file_path)
-                print(f"Archivo dualmono eliminado: {file_path}")
+                # Mover el archivo original (dualmono) a la carpeta de archivos obsoletos
+                obsolete_folder_path = os.path.join(os.path.dirname(file_path), "-- OBSOLETE FILES")
+                os.makedirs(obsolete_folder_path, exist_ok=True)
+                shutil.move(file_path, os.path.join(obsolete_folder_path, os.path.basename(file_path)))
+                print(f"Archivo dualmono movido a carpeta de archivos obsoletos: {file_path}")
 
             except Exception as e:
                 print("Error converting file:", e)
 
 def confirm_delete_hidden_files(folder):
-    delete = messagebox.askyesno("Confirm", "Do you want to delete files starting with a dot?")
+    delete = messagebox.askyesno("Confirm", "Do you want to delete MacOS TEMP files (with dot in front)?")
     if delete:
         delete_hidden_files(folder)
 
@@ -273,26 +277,36 @@ def confirm_convert_dualmono_to_mono(folder):
             dualmono_paths = [os.path.join(folder, file) for file in dualmono_files]
             convert_dualmono_to_mono(dualmono_paths)
 
+def is_mono(file_path):
+    sample_rate, data = wav.read(file_path)
+    return len(data.shape) == 1 or data.shape[1] == 1
+
 def confirm_convert_LR_to_stereo(folder):
     matching_files = find_matching_files(folder)
     if matching_files:
         lr_files_found = show_LR_files(matching_files)  # Mostrar los archivos L y R encontrados
         if lr_files_found:
-            convert = messagebox.askyesno("Confirm", "Do you want to convert L/R files to stereo?")
+            convert = messagebox.askyesno("Confirm", "Do you want to join the L/R files into a stereo file?")
             if convert:
                 for base_name_lower, files in matching_files.items():
                     if len(files) > 1:
                         left_files = [file for file in files if re.search(r'\bL\b|\bleft\b', file, re.IGNORECASE)]
                         right_files = [file for file in files if re.search(r'\bR\b|\bright\b', file, re.IGNORECASE)]
                         if len(left_files) == 1 and len(right_files) == 1:
-                            convert_to_stereo(left_files[0], right_files[0])
+                            left_file = left_files[0]
+                            right_file = right_files[0]
+                            if not is_mono(left_file):
+                                left_file = convert_to_mono(left_file)
+                            if not is_mono(right_file):
+                                right_file = convert_to_mono(right_file)
+                            convert_to_stereo(left_file, right_file)
     else:
         print("No matching L/R pairs found in the folder.")
 
 def confirm_reorder_files(folder):
     wav_files = [file for file in os.listdir(folder) if file.endswith(".wav")]
     if wav_files:
-        reorder = messagebox.askyesno("Confirm", "Do you want to reorder the files into folders?")
+        reorder = messagebox.askyesno("Confirm", "Do you want to reorder the files (and maybe categorize them)?")
         if reorder:
             reorder_files(folder)
     else:
@@ -305,6 +319,8 @@ def reorder_files(folder):
 def find_matching_files(folder_path):
     matching_files = {}
     for root_folder, _, files in os.walk(folder_path):
+        if os.path.basename(root_folder) == "-- OBSOLETE FILES":  # Ignorar la carpeta "-- OBSOLETE FILES"
+            continue
         for file in files:
             if file.startswith('.'):
                 continue
@@ -326,17 +342,24 @@ def convert_to_mono(file_path):
     if "(mono)" not in file_path.lower():
         # Si el archivo tiene la marca "(dualmono)", convertirlo a mono
         if "(dualmono)" in file_path.lower():
-            data = np.mean(data, axis=1, dtype=np.int16)  # Promediar los dos canales para convertir a mono
+            # Tomar solo el canal izquierdo
+            mono_data = data[:, 0]  # Tomar solo el primer canal (izquierdo)
         
-        # Actualizar el nombre del archivo agregando "(mono)"
-        file_name, file_ext = os.path.splitext(file_path)
-        new_file_path = f"{file_name} (mono){file_ext}"
-        
-        # Guardar el archivo convertido a mono
-        wav.write(new_file_path, sample_rate, data)
-        print(f"Archivo convertido a mono: {file_path} -> {new_file_path}")
-        
-        return new_file_path
+            # Actualizar el nombre del archivo agregando "(mono)"
+            file_name, file_ext = os.path.splitext(file_path)
+            new_file_path = f"{file_name} (mono){file_ext}"
+            
+            # Guardar el archivo convertido a mono
+            wav.write(new_file_path, sample_rate, mono_data)
+            print(f"Archivo convertido a mono: {file_path} -> {new_file_path}")
+            
+            # Mover el archivo original (dualmono) a la carpeta de archivos obsoletos
+            obsolete_folder_path = os.path.join(os.path.dirname(file_path), "-- OBSOLETE FILES")
+            os.makedirs(obsolete_folder_path, exist_ok=True)
+            shutil.move(file_path, os.path.join(obsolete_folder_path, os.path.basename(file_path)))
+            print(f"Archivo dualmono movido a carpeta de archivos obsoletos: {file_path}")
+            
+            return new_file_path
     else:
         return file_path
 
@@ -371,10 +394,12 @@ def convert_to_stereo(left_file_path, right_file_path):
     wav.write(output_file, left_sample_rate, stereo_data)
     print(f"Archivos mono convertidos a estéreo: {left_file_path} y {right_file_path} -> {output_file}")
     
-    # Eliminar los archivos originales
-    os.remove(left_file_path)
+    # Mover los archivos originales a la carpeta de archivos obsoletos
+    obsolete_folder_path = os.path.join(os.path.dirname(left_file_path), "-- OBSOLETE FILES")
+    os.makedirs(obsolete_folder_path, exist_ok=True)
+    shutil.move(left_file_path, os.path.join(obsolete_folder_path, os.path.basename(left_file_path)))
     if right_file_path:
-        os.remove(right_file_path)
+        shutil.move(right_file_path, os.path.join(obsolete_folder_path, os.path.basename(right_file_path)))
 
 if __name__ == "__main__":
     main()

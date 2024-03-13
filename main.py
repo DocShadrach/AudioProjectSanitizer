@@ -1,20 +1,25 @@
 import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
-import ffmpeg
 from tqdm import tqdm
 import scipy.io.wavfile as wav
 import soundfile as sf
 import numpy as np
 import re
 import webbrowser
-import shutil  # Importar el módulo shutil para la operación de mover archivos
+import shutil
 
 class FileOrdererApp:
     def __init__(self, folder):
         self.folder = folder
         self.elements = []
         self.categories = ["01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"]
+        self.category_colors = {'01- DRUMS': ('white', 'blue'),
+                                '02- PERCUSSION': ('white', 'green'),
+                                '03- BASS': ('white', 'red'),
+                                '04- GUITARS': ('white', 'orange'),
+                                '05- KEYS, SYNTHS, FX, ETC': ('white', 'purple'),
+                                '06- VOCALS': ('white', 'gray')}
         self.populate_files()
         self.create_widgets()
 
@@ -25,19 +30,34 @@ class FileOrdererApp:
 
     def create_widgets(self):
         self.root = tk.Tk()
-        self.listbox = tk.Listbox(self.root, selectmode=tk.SINGLE)
-        for item in self.elements:
-            self.listbox.insert(tk.END, os.path.basename(item) if os.path.isfile(item) else item)
-        self.listbox.pack(expand=True, fill=tk.BOTH)
 
-        self.listbox.bind("<Button-1>", self.on_select)
-        self.listbox.bind("<B1-Motion>", self.on_motion)
-        self.listbox.bind("<ButtonRelease-1>", self.on_release)
+        self.listbox_frame = tk.Frame(self.root)
+        self.listbox_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+        self.listbox = tk.Listbox(self.listbox_frame, selectmode=tk.SINGLE, bg='white', font=('Arial', 10))
+        self.listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+        self.scrollbar = tk.Scrollbar(self.listbox_frame, orient=tk.VERTICAL, command=self.listbox.yview)
+        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.listbox.config(yscrollcommand=self.scrollbar.set)
+
+        for item in self.elements:
+            if item in self.categories:
+                fg_color, bg_color = self.category_colors[item]
+                self.listbox.insert(tk.END, item)
+                self.listbox.itemconfig(tk.END, {'fg': fg_color, 'bg': bg_color})
+            else:
+                self.listbox.insert(tk.END, os.path.basename(item) if os.path.isfile(item) else item)
 
         self.rename_button = tk.Button(self.root, text="OK", command=self.rename_files)
         self.rename_button.pack(pady=5)
 
         self.drag_data = {"x": 0, "y": 0, "index": None}
+
+        self.listbox.bind("<Button-1>", self.on_select)
+        self.listbox.bind("<B1-Motion>", self.on_motion)
+        self.listbox.bind("<ButtonRelease-1>", self.on_release)
 
     def on_select(self, event):
         widget = event.widget
@@ -48,9 +68,14 @@ class FileOrdererApp:
         current_index = widget.nearest(event.y)
         if self.drag_data["index"] is not None and current_index != self.drag_data["index"]:
             if 0 <= self.drag_data["index"] < len(self.elements) and 0 <= current_index < len(self.elements):
+                # Check if trying to move a category
+                if self.elements[self.drag_data["index"]] in self.categories:
+                    if self.elements[current_index] in self.categories:
+                        return  # Ignore attempts to move categories
                 self.elements.insert(current_index, self.elements.pop(self.drag_data["index"]))
                 self.update_listbox()
                 self.drag_data["index"] = current_index
+                self.listbox.yview_moveto(current_index / len(self.elements))  # Move scrollbar position
 
     def on_release(self, event):
         self.drag_data["index"] = None
@@ -58,7 +83,12 @@ class FileOrdererApp:
     def update_listbox(self):
         self.listbox.delete(0, tk.END)
         for item in self.elements:
-            self.listbox.insert(tk.END, os.path.basename(item) if os.path.isfile(item) else item)
+            if item in self.categories:
+                fg_color, bg_color = self.category_colors[item]
+                self.listbox.insert(tk.END, item)
+                self.listbox.itemconfig(tk.END, {'fg': fg_color, 'bg': bg_color})
+            else:
+                self.listbox.insert(tk.END, os.path.basename(item) if os.path.isfile(item) else item)
 
     def rename_files(self):
         uncategorized_files = []
@@ -91,8 +121,8 @@ class FileOrdererApp:
         self.root.title("Reorder Your Tracks. IMPORTANT: DON'T CHANGE THE ORDER OF THE CATEGORIES")
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        window_width = int(screen_width * 0.4)
-        window_height = int(screen_height * 0.4)
+        window_width = int(screen_width * 0.3)
+        window_height = int(screen_height * 0.8)
         x = (screen_width - window_width) // 2
         y = (screen_height - window_height) // 2
         self.root.geometry(f"{window_width}x{window_height}+{x}+{y}")
@@ -115,16 +145,14 @@ def show_donation_dialog():
 
 def main():
     current_directory = os.getcwd()
-    ffprobe_path = os.path.join(current_directory,'ffprobe')
-    #print(ffprobe_path)
     folder = select_folder()
     if folder:
         if any(file.startswith(".") for file in os.listdir(folder)):
             confirm_delete_hidden_files(folder)
-        confirm_identify_audio_type(folder, ffprobe_path)  # Pasar la ubicación del ffprobe como parámetro
+        confirm_identify_audio_type(folder)
         confirm_convert_dualmono_to_mono(folder)
         confirm_convert_LR_to_stereo(folder)
-        confirm_reorder_files(folder)  # Confirmar la reordenación después de todas las conversiones
+        confirm_reorder_files(folder)
         print("Process completed.")
         show_donation_dialog()
     else:
@@ -149,9 +177,7 @@ def show_LR_files(matching_files):
         print("No matching L/R pairs found.")
         return False
 
-def convert_dualmono_to_mono(dualmono_files):
-    show_dualmono_files(dualmono_files)  # Mostrar los nombres de los archivos dualmono
-    convert = messagebox.askyesno("Confirm", "Do you want to convert dualmono files to mono?")
+def convert_dualmono_to_mono(dualmono_files, convert):
     if convert:
         for file_path in dualmono_files:
             try:
@@ -179,6 +205,11 @@ def convert_dualmono_to_mono(dualmono_files):
             except Exception as e:
                 print("Error converting file:", e)
 
+def confirm_convert_dualmono_to_mono(folder):
+    dualmono_files = [file for file in os.listdir(folder) if file.lower().endswith("(dualmono).wav")]
+    if dualmono_files:
+        convert_dualmono_to_mono(dualmono_files, True)  # Pasamos True directamente ya que la confirmación ya se realizó
+
 def confirm_delete_hidden_files(folder):
     delete = messagebox.askyesno("Confirm", "Do you want to delete MacOS TEMP files (with dot in front)?")
     if delete:
@@ -192,11 +223,11 @@ def delete_hidden_files(folder):
                 os.remove(file_path)
                 print(f"File deleted: {file_path}")
 
-def confirm_identify_audio_type(folder, ffprobe_path):
+def confirm_identify_audio_type(folder):
     if not contains_labeled_files(folder):
         identify = messagebox.askyesno("Confirm", "Do you want to identify the audio type (mono/stereo) of the files?")
         if identify:
-            identify_audio_type(folder, ffprobe_path)  # Pasar la ubicación del ffprobe como parámetro
+            identify_audio_type(folder)
 
 def contains_labeled_files(folder):
     for root_dir, _, files in os.walk(folder):
@@ -205,16 +236,16 @@ def contains_labeled_files(folder):
                 return True
     return False
 
-def identify_audio_type(folder, ffprobe_path):
+def identify_audio_type(folder):
     dualmono_files = []
     for root_dir, _, files in os.walk(folder):
         wav_files = [file for file in files if file.endswith(".wav")]
         with tqdm(total=len(wav_files), desc=f"Processing files in {root_dir}") as pbar:
             for file in wav_files:
                 if "(mono)" in file or "(stereo)" in file:
-                    continue  # Skip files already labeled
+                    continue
                 original_path = os.path.join(root_dir, file)
-                audio_type = get_audio_type(original_path, ffprobe_path)  # Pasar la ubicación del ffprobe como parámetro
+                audio_type = get_audio_type(original_path)
                 if audio_type:
                     new_name = f"{os.path.splitext(file)[0]} ({audio_type}).wav"
                     try:
@@ -223,18 +254,22 @@ def identify_audio_type(folder, ffprobe_path):
                         print("Error renaming file:", e)
                 pbar.update(1)
                 if audio_type == "dualmono":
-                    dualmono_files.append(os.path.join(root_dir, new_name))  # Usar el nombre modificado
+                    dualmono_files.append(os.path.join(root_dir, new_name))
     if dualmono_files:
-        convert_dualmono_to_mono(dualmono_files)
+        show_dualmono_files(dualmono_files)
+        convert = messagebox.askyesno("Confirm", "Do you want to convert dualmono files to mono?")
+        convert_dualmono_to_mono(dualmono_files, convert)
+    else:
+        pass
 
-def get_audio_type(file, ffprobe_path):
+def get_audio_type(file):
     try:
-        info = ffmpeg.probe(file, cmd=ffprobe_path)
-        num_channels = info['streams'][0]['channels']
-        if num_channels == 1:
+        data, sample_rate = sf.read(file)
+
+        if len(data.shape) == 1 or data.shape[1] == 1:
             return "mono"
-        elif num_channels == 2:
-            channel_type = detect_audio_type(file)
+        elif data.shape[1] == 2:
+            channel_type = detect_audio_type(data)
             if channel_type == "False stereo":
                 return "dualmono"
             else:
@@ -245,13 +280,8 @@ def get_audio_type(file, ffprobe_path):
         print("Error obtaining file information:", e)
         return None
 
-def detect_audio_type(file):
+def detect_audio_type(data):
     try:
-        data, _ = sf.read(file)
-
-        if len(data.shape) == 1 or data.shape[1] == 1:
-            return "Mono"
-
         if data.shape[1] == 2:
             left_channel = data[:, 0]
             right_channel = data[:, 1]
@@ -268,14 +298,6 @@ def detect_audio_type(file):
     except Exception as e:
         print("Error detecting audio type:", e)
         return "Unknown"
-
-def confirm_convert_dualmono_to_mono(folder):
-    dualmono_files = [file for file in os.listdir(folder) if file.lower().endswith("(dualmono).wav")]
-    if dualmono_files:
-        convert = messagebox.askyesno("Confirm", "Do you want to convert dualmono files to mono?")
-        if convert:
-            dualmono_paths = [os.path.join(folder, file) for file in dualmono_files]
-            convert_dualmono_to_mono(dualmono_paths)
 
 def is_mono(file_path):
     sample_rate, data = wav.read(file_path)

@@ -2,7 +2,7 @@ Audio Project Sanitizer (APS) v2.6
 
 You can download version 2.6 from this link: // Puedes descargar la versión 2.6 desde este enlace:
 
-https://www.dropbox.com/scl/fi/jp9s6noexg1ilyj9ki2zf/APS_2.6.rar?rlkey=a473di06fp1vaix0vybyxcmih&dl=0
+https://www.dropbox.com/scl/fi/bs2dy9n8jh35jzg8jqe8g/APS_2.6b.rar?rlkey=8jj6cj9l7fmyeiuzsuutwaxbg&dl=0
 
 (For now, only for Windows.) // (Por ahora, solo para Windows.)
 

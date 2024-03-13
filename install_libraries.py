@@ -2,7 +2,6 @@ import subprocess
 
 # List of libraries to install
 libraries_to_install = [
-    'ffmpeg-python',
     'tqdm',
     'scipy',
     'soundfile',
@@ -17,7 +16,8 @@ for library in libraries_to_install:
         print(f'Error installing {library}. Continuing with the next library...')
         continue
 
-# Check if tkinter is available
+# Check if are available
+
 try:
     import tkinter
     print('tkinter is already available.')
@@ -26,7 +26,6 @@ except ImportError:
     subprocess.check_call(['pip3', 'install', 'tkinter'])
     print('tkinter installed successfully.')
 
-# Check if webbrowser and shutil are available
 try:
     import webbrowser
     print('webbrowser is already available.')

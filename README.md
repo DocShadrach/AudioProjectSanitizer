@@ -1,12 +1,14 @@
-Audio Project Sanitizer (APS) v2.6
+Audio Project Sanitizer (APS) v2.7
 
-You can download version 2.6 from this link: // Puedes descargar la versión 2.6 desde este enlace:
+You can download version 2.7 from this link: // Puedes descargar la versión 2.7 desde este enlace:
 
-https://www.dropbox.com/scl/fi/bs2dy9n8jh35jzg8jqe8g/APS_2.6b.rar?rlkey=8jj6cj9l7fmyeiuzsuutwaxbg&dl=0
+https://www.dropbox.com/scl/fi/sm5mquy7hm8mkcgf3qi3u/APS_2.7.rar?rlkey=jw6cd194sakf3idc2napsjk3f&st=8gs5o4xv&dl=0
 
 (For now, only for Windows.) // (Por ahora, solo para Windows.)
 
-Videotutorial: https://youtu.be/le1fA-1PH2E
+Videotutorial (ver 2.6): https://youtu.be/le1fA-1PH2E
+
+Old version (2.6): https://www.dropbox.com/scl/fi/bs2dy9n8jh35jzg8jqe8g/APS_2.6b.rar?rlkey=8jj6cj9l7fmyeiuzsuutwaxbg&dl=0
 
 ----------------------------------------------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
-Audio Project Sanitizer (APS) v2.7
+Audio Project Sanitizer (APS) v2.8
 
-You can download version 2.7 from this link: // Puedes descargar la versión 2.7 desde este enlace:
+You can download version 2.8 from this link: // Puedes descargar la versión 2.8 desde este enlace:
 
-https://www.dropbox.com/scl/fi/sm5mquy7hm8mkcgf3qi3u/APS_2.7.rar?rlkey=jw6cd194sakf3idc2napsjk3f&st=8gs5o4xv&dl=0
+https://www.dropbox.com/scl/fi/atquufnvab7qzg6a1kau7/APS_2.8.rar?rlkey=j1m5oqmu255qoyxm2en4tjh6a&st=4c1t1vqi&dl=0
 
 (For now, only for Windows.) // (Por ahora, solo para Windows.)
 

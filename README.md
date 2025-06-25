@@ -80,7 +80,7 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 - Si la carpeta seleccionada no tiene archivos WAV (solo aparecen carpetas) la opción de reordenar los archivos no aparece.
 - Si tienes un proyecto que ya está categorizado, puedes indicar para que el programa entre en alguna categoría (a su carpeta) y reordenar igualmente los archivos (sin necesidad de categorizarlos).
 
-Garantía de calidad del audio:
+Garantía de calidad del audio!!
 Esta herramienta ha sido diseñada para asegurar que todos los procesos de análisis, conversión y organización de archivos de audio respeten al 100% la calidad original. Estas son las garantías que ofrece:
 1) El bit depth y la frecuencia de muestreo de todos los archivos se mantienen intactos durante cualquier conversión.
 2) Los archivos dualmono no se convierten haciendo un promedio entre canales, sino que se analiza cuál de los dos es realmente útil (si uno está vacío) y se conserva únicamente el canal activo, evitando artefactos o degradación.

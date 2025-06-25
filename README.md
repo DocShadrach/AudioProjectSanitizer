@@ -14,9 +14,12 @@ Old version (2.6): https://www.dropbox.com/scl/fi/bs2dy9n8jh35jzg8jqe8g/APS_2.6b
 
 English:
 
+About this tool:
+This application is designed for mix engineers who work with large numbers of exported audio tracks. It automates tasks such as identifying file type (mono/stereo/dualmono), precise conversion to true mono or stereo, track reordering, and organizing material by category.
+It does not alter the audio content or compromise sound fidelity. Every step in the workflow has been designed to save time while maintaining full technical quality.
+
 WARNING: although this program works non-destructively (saving a copy of the files it has modified in a specific folder) it is always advisable to make a copy of your original files.
 
-This program is used to sort the audio files in a mixing project before importing the files into the DAW.
 It includes 5 main functions:
 1) If your project files contain temporary MacOS files (those that start with a dot), it can delete them.
 2) Scans all files to see if they are mono or stereo and renames them to identify them as such.
@@ -37,6 +40,14 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 - If the selected folder does not have WAV files (only folders appear), the option to reorder the files does not appear.
 - If you have a project that is already categorized, you can indicate that the program enters a category (its folder) and reorder the files as well (without having to categorize them).
 
+Audio Quality Guarantee!!
+This tool has been designed to ensure that all audio analysis, conversion, and organization processes fully preserve the original quality. These are the guarantees it offers:
+1) Bit depth and sample rate are preserved exactly during any file conversion.
+2) Dualmono files are not averaged; instead, the system analyzes both channels and retains only the active one (if the other is silent), avoiding artifacts and preserving fidelity.
+3) When building stereo tracks from L/R files, both sources are verified to be true mono. If not, they are safely converted without altering their technical properties.
+4) Original files are never overwritten. Any processed file is automatically moved to a backup folder (-- OBSOLETE FILES) to allow full reversibility if needed.
+5) The system automatically detects mislabeled or structurally incorrect files (e.g. false stereo or silent channels) and classifies them correctly, speeding up workflow without compromising quality.
+
 This program is completely free but if this program is useful to you, you could help me with a donation at:
 
 https://ko-fi.com/docshadrach
@@ -45,9 +56,12 @@ https://ko-fi.com/docshadrach
 
 Español:
 
+Acerca de esta herramienta:
+Esta aplicación está pensada para ingenieros de mezcla que trabajan con grandes cantidades de pistas exportadas. Automatiza tareas como la identificación de tipo de archivo (mono/estéreo/dualmono), la conversión precisa a mono o estéreo real, la reordenación de pistas, y la organización del material por categorías.
+No modifica el contenido sonoro ni compromete la fidelidad del audio. Cada decisión en el flujo de trabajo ha sido tomada con el objetivo de facilitar la preparación de sesiones sin perder tiempo ni calidad.
+
 ADVERTENCIA: aunque este programa trabaja de forma no destructiva (guardando en una carpeta específica una copia de los archivos que ha modificado) es siempre recomendable hacer una copia de tus archivos originales.
 
-Este programa sirve para ordenar los archivos de audio de un proyecto de mezcla antes de importar los archivos al DAW.
 Incluye 5 funciones principales:
 1) Si los archivos del proyecto contienen archivos temporales de MacOS (los que empiezan con un punto) los puede borrar.
 2) Analiza todos los archivos para ver si son mono o si son estéreo y los renombra para identificarlos como tal.
@@ -67,6 +81,14 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 - Si los archivos ya están identificados como (mono) o (stereo) la opción de analizar los archivos no aparece.
 - Si la carpeta seleccionada no tiene archivos WAV (solo aparecen carpetas) la opción de reordenar los archivos no aparece.
 - Si tienes un proyecto que ya está categorizado, puedes indicar para que el programa entre en alguna categoría (a su carpeta) y reordenar igualmente los archivos (sin necesidad de categorizarlos).
+
+Garantía de calidad del audio:
+Esta herramienta ha sido diseñada para asegurar que todos los procesos de análisis, conversión y organización de archivos de audio respeten al 100% la calidad original. Estas son las garantías que ofrece:
+1) El bit depth y la frecuencia de muestreo de todos los archivos se mantienen intactos durante cualquier conversión.
+2) Los archivos dualmono no se convierten haciendo un promedio entre canales, sino que se analiza cuál de los dos es realmente útil (si uno está vacío) y se conserva únicamente el canal activo, evitando artefactos o degradación.
+3) En la reconstrucción de pistas estéreo a partir de archivos L/R, se asegura que ambas fuentes sean mono reales. Si alguna no lo es, se convierte sin pérdida, manteniendo su integridad técnica.
+4) Todos los archivos originales se conservan. Cualquier archivo que haya sido procesado se mueve automáticamente a una carpeta de respaldo (-- OBSOLETE FILES) para permitir una reversión si es necesaria.
+5) El sistema detecta de forma automática archivos mal etiquetados o con estructuras erróneas (como falsos estéreo o canales silenciosos) y los clasifica correctamente, lo que agiliza el flujo de trabajo sin poner en riesgo la calidad.
 
 Este programa es totalmente gratuito pero si este programa te resulta de utilidad podrías ayudarme con una donación en:
 

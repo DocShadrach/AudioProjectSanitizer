@@ -14,7 +14,6 @@ Old version (2.6): https://www.dropbox.com/scl/fi/bs2dy9n8jh35jzg8jqe8g/APS_2.6b
 
 English:
 
-About this tool:
 This application is designed for mix engineers who work with large numbers of exported audio tracks. It automates tasks such as identifying file type (mono/stereo/dualmono), precise conversion to true mono or stereo, track reordering, and organizing material by category.
 It does not alter the audio content or compromise sound fidelity. Every step in the workflow has been designed to save time while maintaining full technical quality.
 
@@ -56,7 +55,6 @@ https://ko-fi.com/docshadrach
 
 Español:
 
-Acerca de esta herramienta:
 Esta aplicación está pensada para ingenieros de mezcla que trabajan con grandes cantidades de pistas exportadas. Automatiza tareas como la identificación de tipo de archivo (mono/estéreo/dualmono), la conversión precisa a mono o estéreo real, la reordenación de pistas, y la organización del material por categorías.
 No modifica el contenido sonoro ni compromete la fidelidad del audio. Cada decisión en el flujo de trabajo ha sido tomada con el objetivo de facilitar la preparación de sesiones sin perder tiempo ni calidad.
 

@@ -657,8 +657,12 @@ def detect_audio_type(data):
         return "Unknown"
 
 def is_mono(file_path):
-    sample_rate, data = wav.read(file_path)
-    return len(data.shape) == 1 or data.shape[1] == 1
+    try:
+        data, sample_rate = sf.read(file_path, always_2d=True)
+        return data.shape[1] == 1  # True if it's mono (1 channel)
+    except Exception as e:
+        print(f"Error verificando si es mono {file_path}: {str(e)}")
+        return False  # By default assume is not mono if there is error
 
 def confirm_convert_LR_to_stereo(folder):
     matching_files = find_matching_files(folder)
@@ -720,35 +724,40 @@ def find_matching_files(folder_path):
     return matching_files
 
 def convert_to_mono(file_path):
-    sample_rate, data = wav.read(file_path)
-    
-    # If the file already has the "(mono)" tag, it does not need to be converted
-    if "(mono)" not in file_path.lower():
-        # If the file has the "(dualmono)" tag, convert it to mono
-        if "(dualmono)" in file_path.lower():
-            # Take only the left channel
-            if data.ndim == 2:  # Check if file is stereo
-                mono_data = data[:, 0]  # Take only the first (left) channel
-            else:
-                mono_data = data  # If it's mono, there's no need to change anything
+    try:
+        # Use soundfile to read the file
+        data, sample_rate = sf.read(file_path, always_2d=True)
         
-            # Update the file name by adding "(mono)"
-            file_name, file_ext = os.path.splitext(file_path)
-            new_file_path = f"{file_name} (mono){file_ext}"
-            
-            # Save the converted file to mono
-            wav.write(new_file_path, sample_rate, mono_data)
-            print(f"File converted to mono: {file_path} -> {new_file_path}")
-            
-            # Move the original file (dualmono) to the obsolete files folder
-            obsolete_folder_path = os.path.join(os.path.dirname(file_path), "-- OBSOLETE FILES")
-            os.makedirs(obsolete_folder_path, exist_ok=True)
-            shutil.move(file_path, os.path.join(obsolete_folder_path, os.path.basename(file_path)))
-            print(f"Dualmono file moved to OBSOLETE FILES folder: {file_path}")
-            
-            return new_file_path
-    else:
+        # If the file already has tag "(mono)", it does not need conversion
+        if "(mono)" not in file_path.lower():
+            # If you have tag "(dualmono)", turn it to mono
+            if "(dualmono)" in file_path.lower():
+                # Take only the left channel
+                if data.shape[1] == 2:  # Verify if it's stereo
+                    mono_data = data[:, 0]  # Take only the first channel (left)
+                else:
+                    mono_data = data  # If it is mono, there are no necessary changes
+                
+                # Update file name
+                file_name, file_ext = os.path.splitext(file_path)
+                new_file_path = f"{file_name} (mono){file_ext}"
+                
+                # Save mono file preserving the original format
+                file_info = sf.info(file_path)
+                sf.write(new_file_path, mono_data, sample_rate, subtype=file_info.subtype)
+                print(f"Archivo convertido a mono: {file_path} -> {new_file_path}")
+                
+                # Move original file to an OBSOLETE folder
+                obsolete_folder_path = os.path.join(os.path.dirname(file_path), "-- OBSOLETE FILES")
+                os.makedirs(obsolete_folder_path, exist_ok=True)
+                shutil.move(file_path, os.path.join(obsolete_folder_path, os.path.basename(file_path)))
+                print(f"Archivo dualmono movido a OBSOLETE FILES: {file_path}")
+                
+                return new_file_path
         return file_path
+    except Exception as e:
+        print(f"Error convirtiendo a mono {file_path}: {str(e)}")
+        return file_path  # In case of error, return the original file
 
 def convert_to_stereo(left_file_path, right_file_path, progress_window=None):
     # Show progress if a window is provided

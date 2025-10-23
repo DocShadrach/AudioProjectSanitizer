@@ -28,6 +28,16 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 5) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
+NEW FEATURES IN VERSION 3.0:
+- Enhanced file selection interface with checkboxes for dualmono and L/R files
+- Progress window with real-time status updates and detailed activity log
+- Automatic detection and handling of files with silent channels
+- Improved audio format preservation using soundfile library
+- Better file selection control - you can now choose which specific files to process
+- Enhanced L/R file matching with improved pattern recognition
+- More informative dialogs with file previews
+- Better error handling and user feedback
+
 - The executable file works only on Windows. If you use another operating system, you could directly run the main.py file by installing Python on your computer or compile that file to make the program work on your operating system.
 - This program does not need to be installed, the executable file works portably, so you can place this file wherever you want.
 - It may be that some antiviruses detect the executable of this program as Malware. This is a false positive, don't worry, you can review the code or compile it on your own if you don't trust it.
@@ -69,6 +79,16 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 5) Puede reordenar los archivos enumerándolos según la posición que elijamos, y puede catalogarlos dentro de diferentes categorías:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
+NUEVAS CARACTERÍSTICAS EN VERSIÓN 3.0:
+- Interfaz mejorada de selección de archivos con casillas de verificación para archivos dualmono y L/R
+- Ventana de progreso con actualizaciones en tiempo real y registro detallado de actividad
+- Detección automática y manejo de archivos con canales silenciosos
+- Mejor preservación del formato de audio usando la librería soundfile
+- Mejor control de selección de archivos - ahora puedes elegir qué archivos específicos procesar
+- Mejor reconocimiento de patrones para archivos L/R
+- Diálogos más informativos con previsualización de archivos
+- Mejor manejo de errores y retroalimentación al usuario
+
 - El ejecutable funciona únicamente en Windows. Si utilizas otro sistema operativo podrías ejecutar directamente el archivo main.py instalando Python en tu ordenador o compilar ese archivo para hacer que el programa funcione en tu sistema operativo.
 - Este programa no necesita instalarse, el ejecutable funciona de forma portable, así que puedes colocar este archivo donde quieras.
 - Puede ser que algunos antivirus detecten el ejecutable de este programa como Malware. Ésto es un falso positivo, no te preocupes, puedes revisar el código o compilarlo por tu cuenta si no te fías.
@@ -91,4 +111,5 @@ Esta herramienta ha sido diseñada para asegurar que todos los procesos de anál
 Este programa es totalmente gratuito pero si este programa te resulta de utilidad podrías ayudarme con una donación en:
 
 https://ko-fi.com/docshadrach
+
 

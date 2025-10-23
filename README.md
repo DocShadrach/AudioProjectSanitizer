@@ -32,7 +32,7 @@ NEW FEATURES IN VERSION 3.0:
 - Enhanced file selection interface with checkboxes for dualmono and L/R files
 - Progress window with real-time status updates and detailed activity log
 - Automatic detection and handling of files with silent channels
-- Improved audio format preservation using soundfile library
+- Exact bit depth preservation using soundfile library (preserves original audio format)
 - Better file selection control - you can now choose which specific files to process
 - Enhanced L/R file matching with improved pattern recognition
 - More informative dialogs with file previews
@@ -83,7 +83,7 @@ NUEVAS CARACTERÍSTICAS EN VERSIÓN 3.0:
 - Interfaz mejorada de selección de archivos con casillas de verificación para archivos dualmono y L/R
 - Ventana de progreso con actualizaciones en tiempo real y registro detallado de actividad
 - Detección automática y manejo de archivos con canales silenciosos
-- Mejor preservación del formato de audio usando la librería soundfile
+- Preservación exacta del bit depth usando la librería soundfile (preserva el formato de audio original)
 - Mejor control de selección de archivos - ahora puedes elegir qué archivos específicos procesar
 - Mejor reconocimiento de patrones para archivos L/R
 - Diálogos más informativos con previsualización de archivos
@@ -111,5 +111,3 @@ Esta herramienta ha sido diseñada para asegurar que todos los procesos de anál
 Este programa es totalmente gratuito pero si este programa te resulta de utilidad podrías ayudarme con una donación en:
 
 https://ko-fi.com/docshadrach
-
-

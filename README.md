@@ -1,8 +1,8 @@
-Audio Project Sanitizer (APS) v3.0
+Audio Project Sanitizer (APS) v3.3
 
-You can download version 3.0 from this link: // Puedes descargar la versión 3.0 desde este enlace:
+You can download version 3.3 from this link: // Puedes descargar la versión 3.3 desde este enlace:
 
-https://www.dropbox.com/scl/fi/6njx4fvaakssuqueiuonz/APS_3.0.rar?rlkey=03b91otquzf611f83fzqigcwx&st=57760lvg&dl=0
+https://www.dropbox.com/scl/fi/awox0rayydzvzd82s4fct/APS_3.3.rar?rlkey=juoona4tmk5d5y4tktoppn14k&st=66t417yn&dl=0
 
 (For now, only for Windows.) // (Por ahora, solo para Windows.)
 
@@ -28,7 +28,7 @@ It also recognises when a stereo file is actually a fake stereo (same informatio
 5) You can reorder the files by listing them according to the position we choose, and you can catalog them within different categories:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
-NEW FEATURES IN VERSION 3.0:
+NEW FEATURES IN VERSION 3:
 - Enhanced file selection interface with checkboxes for dualmono and L/R files
 - Progress window with real-time status updates and detailed activity log
 - Automatic detection and handling of files with silent channels
@@ -79,7 +79,7 @@ Reconoce también cuando un archivo estéreo es en realidad un falso estéreo (m
 5) Puede reordenar los archivos enumerándolos según la posición que elijamos, y puede catalogarlos dentro de diferentes categorías:
 "01- DRUMS", "02- PERCUSSION", "03- BASS", "04- GUITARS", "05- KEYS, SYNTHS, FX, ETC", "06- VOCALS"
 
-NUEVAS CARACTERÍSTICAS EN VERSIÓN 3.0:
+NUEVAS CARACTERÍSTICAS EN VERSIÓN 3:
 - Interfaz mejorada de selección de archivos con casillas de verificación para archivos dualmono y L/R
 - Ventana de progreso con actualizaciones en tiempo real y registro detallado de actividad
 - Detección automática y manejo de archivos con canales silenciosos

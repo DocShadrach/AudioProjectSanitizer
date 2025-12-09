@@ -3,8 +3,6 @@ import sys
 
 # List of libraries to install
 libraries_to_install = [
-    'tqdm',
-    'scipy',
     'soundfile',
     'numpy',
 ]
@@ -31,3 +29,4 @@ def install_libraries():
 
 if __name__ == "__main__":
     install_libraries()
+
